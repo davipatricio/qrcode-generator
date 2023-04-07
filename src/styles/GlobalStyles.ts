@@ -10,6 +10,10 @@ export default createGlobalStyle`
     @media (prefers-color-scheme: dark) {
       color-scheme: dark light;
     }
+
+    &, body {
+      height: 100%;
+    }
   }
 
   body {

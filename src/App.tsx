@@ -1,11 +1,10 @@
-import QRCode from 'qrcode';
-import { useCallback, useReducer } from 'react';
+import { useReducer } from 'react';
 import { Container, Description, Introduction } from './App.styles';
 import QRCodeImage from './assets/qr-code.svg';
+import Footer from './components/Footer';
 import FormGenerator from './components/FormGenerator';
 import Header from './components/Header';
 import { generatorReducer } from './hooks/generator';
-import { URL_REGEX } from './utils/constants';
 
 function App() {
   const [generator, dispatch] = useReducer(generatorReducer, {
@@ -40,6 +39,7 @@ function App() {
         {generator.generatedUrl && (
           <img
             alt="Generated QR Code for the requested URL"
+            className="generated-image"
             height={generator.size}
             src={generator.generatedUrl}
             title="Generated QR Code for the requested URL"
@@ -47,6 +47,8 @@ function App() {
           />
         )}
       </Container>
+          
+      <Footer />
     </>
   );
 }
