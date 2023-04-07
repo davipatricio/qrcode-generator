@@ -42,6 +42,7 @@ function App() {
             className="generated-image"
             height={generator.size}
             src={generator.generatedUrl}
+            style={{ marginBottom: '70px' }}
             title="Generated QR Code for the requested URL"
             width={generator.size}
           />

@@ -1,5 +1,5 @@
 import QRCode from 'qrcode';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type {
   GeneratorAction,
   GeneratorState,
@@ -13,6 +13,18 @@ interface FormGeneratorProps {
 }
 
 export default function FormGenerator({ reducer }: FormGeneratorProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setIsMobile(true);
+      else setIsMobile(false);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [state, dispatch] = reducer;
 
   const handleURLChange = useCallback(
@@ -57,13 +69,15 @@ export default function FormGenerator({ reducer }: FormGeneratorProps) {
         value={state.url}
       />
 
-      <select defaultValue="300" onChange={handleSizeChange}>
-        {ALLOWED_SIZES.map((size) => (
-          <option key={size} value={size}>
-            {size}x{size}
-          </option>
-        ))}
-      </select>
+      {!isMobile && (
+        <select defaultValue="300" onChange={handleSizeChange}>
+          {ALLOWED_SIZES.map((size) => (
+            <option key={size} value={size}>
+              {size}x{size}
+            </option>
+          ))}
+        </select>
+      )}
 
       <button disabled={!state.url || state.error} type="submit">
         Generate QR Code
